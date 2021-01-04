@@ -11,13 +11,11 @@
   "options": {
     "zone": "",
     "host": "",
-    "email": "",
     "api": ""
   },
   "schema": {
     "zone": "str",
     "host": "str",
-    "email": "str",
     "api": "str"
   }
 } 
