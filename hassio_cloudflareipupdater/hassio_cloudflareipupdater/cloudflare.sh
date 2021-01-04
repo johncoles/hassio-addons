@@ -44,12 +44,9 @@ else
 fi
 
 # Determines the current IP address
-new_ip=$($ip_curl https://davidramosweb.com/miip.php)
+new_ip=$($ip_curl http://whatismyip.akamai.com)
 
 # IP address service fallbacks
-if [[ -z $new_ip ]]; then
-    new_ip=$($ip_curl http://whatismyip.akamai.com)
-fi
 if [[ -z $new_ip ]]; then
     new_ip=$($ip_curl http://icanhazip.com/)
 fi
@@ -77,8 +74,7 @@ echo "IP: $ip"
 
 # Fetches the zone information for the account
 zone_response=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=$ZONE" \
-        -H "X-Auth-Email: $EMAIL" \
-        -H "X-Auth-Key: $API" \
+        -H "Authorization: Bearer $API" \
         -H "Content-Type: application/json")
 
 
@@ -103,8 +99,7 @@ echo "Zone $ZONE id : $zone_id"
 
 # Tries to fetch the record of the host
 dns_record_response=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$zone_id/dns_records?name=$HOST" \
-        -H "X-Auth-Email: $EMAIL" \
-        -H "X-Auth-Key: $API" \
+        -H "Authorization: Bearer $API" \
         -H "Content-Type: application/json")
 
 if [[ $(jq <<<"$dns_record_response" -r '.success') != "true" ]]; then
@@ -147,8 +142,7 @@ if [[ -z $dns_record_id ]]; then
     echo "Creating new record for host $HOST"
 
     dns_record_response=$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$zone_id/dns_records" \
-            -H "X-Auth-Email: $EMAIL" \
-            -H "X-Auth-Key: $API" \
+            -H "Authorization: Bearer $API" \
             -H "Content-Type: application/json" \
             --data "$new_dns_record")
 else
@@ -157,8 +151,7 @@ else
     echo "Updating record $dns_record_id for host $HOST"
 
     dns_record_response=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/$zone_id/dns_records/$dns_record_id" \
-            -H "X-Auth-Email: $EMAIL" \
-            -H "X-Auth-Key: $API" \
+            -H "Authorization: Bearer $API" \
             -H "Content-Type: application/json" \
             --data "$new_dns_record")
 fi
