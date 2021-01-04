@@ -2,22 +2,20 @@
   "name": "Cloudflare IP Updater",
   "version": "1.0.0",
   "slug": "hassio_cloudflareipupdater",
-  "description": "Dynamic IP Updater for Cloudflare in hass.io",
+  "description": "Dynamic IP Updater for Cloudflare in Home Assistant",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
-  "url": "https://github.com/davidramosweb/hassio_cloudflareipupdater",
+  "url": "https://github.com/johncoles/hassio-addons/tree/master/hassio_cloudflareipupdater",
   "startup": "system",
   "boot": "auto",
 
   "options": {
     "zone": "",
     "host": "",
-    "email": "",
     "api": ""
   },
   "schema": {
     "zone": "str",
     "host": "str",
-    "email": "str",
     "api": "str"
   }
 } 

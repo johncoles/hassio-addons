@@ -1,14 +1,20 @@
 # hassio-cloudflareipupdater
-Dynamic IP Updater for Cloudflare in hass.io
 
-[![Community Forum][forum-shield]][forum]
+Dynamic IP Updater for Cloudflare in Home Assistant
 
-<a href='https://ko-fi.com/A0A12HZT1' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi4.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+### This Home Assistant Addon
+
+This addon allows you to update your Cloudflare DNS with your current public IP addess. All the magic happens in a shell script and it is run when the add-on is started. Once the add-on has decided if the IP has changed it will update (if needed) and then exit. Errors and successes are logged to the log. You should add a section to your automations in Home Assistant to run this add-on at your desired frequency.
+
+### How to get an API key from Cloudflare
+
+Log in to your account and then head to your account settings. At the top click on "API Tokens". Next click the blue "Create token" button in the API Tokens section.
+
+When asked if you wish to use a template click on the blue "Use template" option next to "Edit Zone DNS". You will need to then select the zone you wish to update a subdomain of in the "Zone Resources" section (in the right most dropdown).
+
+Scroll to the bottom and click "Continue to summary" then on the summary page click "Create token". You will then be shown the token, copy this and paste it in to your config. It will only be shown this one time.
 
 
-### This Hass.io Addon
-
-The objective is to provide a client to do dynamic dns updates in Cloudflare on behalf of your hass.io server. The configuration of this addon allows you to setup your Cloudflare domain to dynamically update whenever a change of your public IP address occurs.
 
 ### Configuration
 
@@ -18,12 +24,11 @@ The available configuration options are as follows (this is filled in with some 
 {
     "zone": "yourdomain.com",
     "host": "sub.yourdomain.com",
-    "email": "hello@yourdomain.com",
-    "api": "yourAPIkeyFromCloudflare"
+    "api": "YourAPITokenFromCloudflare"
 }
 ```
 
-You should add this in your automations.yaml:
+An example to add to your automations.yaml:
 
 ```
 - id: cloudflare-updater
@@ -37,5 +42,3 @@ You should add this in your automations.yaml:
     data:
       addon: local_hassio_cloudflareipupdater
 ```
-[forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg
-[forum]: https://community.home-assistant.io/t/hass-io-addon-dynamic-ip-updater-for-cloudflare/122580
